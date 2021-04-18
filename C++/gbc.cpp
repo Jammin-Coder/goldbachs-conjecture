@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-#include "linkedLists.h"
 #include "myFuncs.h"
 
 using namespace std;
@@ -10,34 +9,42 @@ class Goldbach
 {
 private:
 	Funcs custom; // My custom functions
-	List m_primes; // List of prime numbers, empty at first.
+	unsigned long long m_primes[100] = {0};
+	int m_primesSize = 0;
 	int m_low;
 	int m_high;
 	int m_lastPrime = 1;
 	int m_nextRange = 100;
-	
+
+	// Keeps m_primes array size under 101
 	void manage_primes()
 	{
-        if(m_primes.size() >= 100)
+        if(m_primesSize >= 100)
 		{
-            m_primes.slice(50, 75);
+            for(int i = 50; i <= 75; i++)
+            {
+                m_primes[i] = 0;
+
+            }
+            m_primesSize = 75;
         }
     }
      
-     void find_primes()
+     void findPrimes()
      {
         cout << "Finding primes...\n";
         /*
         This method finds primes incrementally, only as they are needed.
         Otherwise when going to large numbers, the program will hang for about 
-        17 years at startup.
+        17 years at startup. Plus the m_primes array can be kept under 101 in length
         */
-        for(long long i = m_lastPrime; i < m_nextRange; i+= 2)
+        for(unsigned long long i = m_lastPrime; i < m_nextRange; i+= 2)
         {
-            if (custom.isPrime(i) == 1)
+            if (custom.isPrime(i) == 1 && i != 0)
             {
-                m_primes.append(i);
                 manage_primes();
+                m_primes[m_primesSize] = i;
+                m_primesSize++;
                 m_lastPrime = i;  // Sets the last prime to i, so next time this loop runs, it remembers where it left off.
             }
         }
@@ -48,24 +55,23 @@ private:
     {
         cout << "Testing Goldbach's conjecture...\n";
         int works = 0;
-        for(long long i = m_low; i < m_high; i += 2)
+        for(unsigned long long i = m_low; i < m_high; i += 2)
         {
             int do_break = 0;  // If this is true, then move on to the next even number
             if(i >= m_lastPrime)
             {
-                // This allows the known calculated prime numbers to increment as needed,
-                // so we aren't looking for tons of numbers at the start of the program.
-                find_primes();
+                findPrimes(); // Refer to
             }
-			int primesLength = m_primes.size();
-            for(int j = 0; j < primesLength; j++)
+            for(int j = 0; j < m_primesSize; j++)
             {
                 if(do_break == 1){break;}
-                long long num1 = m_primes.index(j);
-                
-                for(int k = 0; k < primesLength; k++)
+                unsigned long long num1 = m_primes[j];
+
+                if(num1 == 0){break;}
+
+                for(int k = 0; k < m_primesSize; k++)
                 {
-                	long long num2 = m_primes.index(k);
+                	unsigned long long num2 = m_primes[k];
                     if (num1 + num2 == i)
                     {
                         cout << num1 << " + " << num2 << " = " << i << endl;
@@ -87,7 +93,7 @@ private:
 
 public:
 	// Initializer.
-	Goldbach(int low, long long high)
+	Goldbach(int low, unsigned long long high)
 	{
 		m_low = low;
 		m_high = high;
@@ -110,7 +116,7 @@ int main()
 	}
 	*/
 	
-	Goldbach conjecture(0, 1000000);
+	Goldbach conjecture(0, 10000000);
 	
 	conjecture.run();
 		
