@@ -35,7 +35,7 @@ class Conjecture:
                 return False
 
         num = int(num)
-        max_div = 100  # The maximum number to try to divide num by. 100 is sufficient calculations.
+        max_div = 100  # The maximum number to try to divide num by. 100 is sufficient for calculating it.
         div_count = 0  # Number of divisors
         for i in range(1, num + 1):
             if div_count > 2 or i >= max_div:
@@ -54,10 +54,10 @@ class Conjecture:
             return False
 
     # This method manages the amount of prime numbers stored in the self.primes list
-    # never exceeds 500
+    # never exceeds 100
     def manage_primes(self):
-        if len(self.primes) >= 500:
-            for i in range(200, 300):
+        if len(self.primes) >= 100:
+            for i in range(50, 75):
                 self.primes.pop(i)
 
     def find_primes(self):
