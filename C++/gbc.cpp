@@ -18,12 +18,9 @@ private:
 	
 	void manage_primes()
 	{
-        if(m_primes.size() >= 500)
+        if(m_primes.size() >= 100)
 		{
-            for(int i = 200; i < 300; i++)
-            {
-                m_primes.remell(i);
-            }
+            m_primes.slice(50, 75);
         }
     }
      
@@ -103,7 +100,17 @@ public:
 
 int main()
 {
-	Goldbach conjecture(0, 100000000000);
+	/*int maxNum;
+	cout << "Enter maximum num >> ";
+	cin >> maxNum;
+	if(maxNum > 100000000000000)
+	{
+		cout << "The program may not be able to deal with such a large number.\n";
+		exit(1);
+	}
+	*/
+	
+	Goldbach conjecture(0, 1000000);
 	
 	conjecture.run();
 		
