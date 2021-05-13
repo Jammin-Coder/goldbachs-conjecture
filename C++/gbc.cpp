@@ -12,9 +12,9 @@ private:
 	unsigned long long m_primes[100] = {0};
 	int m_primesSize = 0;
 	int m_low;
-	int m_high;
-	int m_lastPrime = 1;
-	int m_nextRange = 100;
+	unsigned long long m_high;
+	unsigned long long m_lastPrime = 1;
+	unsigned long long m_nextRange = 100;
 
 	// Keeps m_primes array size under 101
 	void manage_primes()
@@ -93,13 +93,13 @@ private:
 
 public:
 	// Initializer.
-	Goldbach(int low, unsigned long long high)
+	template<typename T>
+	Goldbach(int low, T high)
 	{
 		m_low = low;
 		m_high = high;
+		calc();
 	}
-	
-	void run(){calc();}
 };
 
 
@@ -117,12 +117,6 @@ int main()
 	
 	
 	Goldbach conjecture(0, maxNum);
-	
-	conjecture.run();
 		
 	return 0;
 }
-
-
-
-
